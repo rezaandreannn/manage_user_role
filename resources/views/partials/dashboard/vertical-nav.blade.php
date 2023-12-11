@@ -520,7 +520,7 @@
                 </a>
             </li>
             @endcan
-            @can('read-user')
+            @can('user-list')
             <li class="nav-item">
                 <a class="nav-link {{activeRoute(route('users.index'))}}" href="{{route('users.index')}}">
                     <i class="icon">
