@@ -89,6 +89,7 @@ class UsersDataTable extends DataTable
             ->parameters([
                 "processing" => true,
                 "autoWidth" => false,
+
             ]);
     }
 
@@ -112,6 +113,10 @@ class UsersDataTable extends DataTable
                 ->exportable(false)
                 ->printable(false)
                 ->searchable(false)
+                ->scrollX(false)
+                ->scrollY(false)
+                ->scrollCollapse(false)
+                ->responsive(true)
                 ->width(100)
                 ->addClass('text-center hide-search')
                 ->style('min-width: 100px;'),

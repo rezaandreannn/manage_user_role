@@ -76,7 +76,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Users 
     Route::get('update-user-permission', [UserController::class, 'userPermission'])->name('user.permission.update');
-    Route::resource('users', UserController::class);
+    // Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::resource('users', UserController::class)->parameters([
+        'users' => 'uuid',
+    ]);
 
     // Module
     Route::group(['prefix' => 'module'], function () {

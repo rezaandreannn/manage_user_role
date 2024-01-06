@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
@@ -22,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
      * @var array
      */
     protected $fillable = [
+        'uuid',
         'username',
         'first_name',
         'last_name',
@@ -52,6 +54,15 @@ class User extends Authenticatable implements MustVerifyEmail, HasMedia
     ];
 
     protected $appends = ['full_name'];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->uuid = Str::uuid();
+        });
+    }
 
     public function getFullNameAttribute()
     {

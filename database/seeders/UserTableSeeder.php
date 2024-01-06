@@ -19,6 +19,7 @@ class UserTableSeeder extends Seeder
     {
         $users = [
             [
+                'uuid' => \Illuminate\Support\Str::uuid(),
                 'first_name' => 'System',
                 'last_name' => 'Admin',
                 'username' => 'systemadmin',
@@ -29,6 +30,7 @@ class UserTableSeeder extends Seeder
                 'user_type' => 'super admin'
             ],
             [
+                'uuid' => \Illuminate\Support\Str::uuid(),
                 'first_name' => 'Demo',
                 'last_name' => 'Admin',
                 'username' => 'demoadmin',
@@ -39,6 +41,7 @@ class UserTableSeeder extends Seeder
                 'user_type' => 'admin'
             ],
             [
+                'uuid' => \Illuminate\Support\Str::uuid(),
                 'first_name' => 'John',
                 'last_name' => 'User',
                 'username' => 'user',

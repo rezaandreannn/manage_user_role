@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\User;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
@@ -28,7 +29,10 @@ class UserRequest extends FormRequest
     public function rules()
     {
         $method = strtolower($this->method());
-        $user_id = $this->route()->user;
+        $uuid = $this->route('uuid');
+        $userExists = User::where('uuid', $uuid)->firstOrFail();
+        $userId = $userExists->id;
+
 
         $rules = [];
         switch ($method) {
@@ -47,7 +51,7 @@ class UserRequest extends FormRequest
             case 'patch':
                 $rules = [
                     'username' => 'required|max:20',
-                    'email' => 'required|max:191|email|unique:users,email,' . $user_id,
+                    'email' => 'required|max:191|email|unique:users,email,' . $userId,
                     'phone_number' => 'max:13',
                     'password' => 'confirmed|min:8|nullable',
                     'userProfile.country' =>  'max:191',

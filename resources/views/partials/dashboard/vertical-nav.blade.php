@@ -492,7 +492,7 @@
         <ul class="sub-nav collapse" id="sidebar-user" data-bs-parent="#sidebar">
             @can('show-user')
             <li class="nav-item">
-                <a class="nav-link {{activeRoute(route('users.show', auth()->user()->id))}}" href="{{route('users.show', auth()->user()->id ?? 100)}}">
+                <a class="nav-link {{activeRoute(route('users.show', auth()->user()->uuid))}}" href="{{route('users.show', auth()->user()->uuid ?? 100)}}">
                     <i class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" viewBox="0 0 24 24" fill="currentColor">
                             <g>
@@ -516,7 +516,7 @@
                         </svg>
                     </i>
                     <i class="sidenav-mini-icon"> E </i>
-                    <span class="item-name">Edit User</span>
+                    <span class="item-name">Add User</span>
                 </a>
             </li>
             @endcan

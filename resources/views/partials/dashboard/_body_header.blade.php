@@ -222,7 +222,7 @@
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{{route('users.show', auth()->id() || 1)}}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{{route('users.show', auth()->user()->uuid ?? 100)}}">Profile</a></li>
                         {{-- <li><a class="dropdown-item" href="{{route('auth.userprivacysetting')}}">Privacy Setting</a>
                 </li> --}}
                 <li>

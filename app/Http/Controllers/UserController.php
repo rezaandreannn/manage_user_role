@@ -47,7 +47,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(Request $request)
     {
         $findRole = Role::query()->find($request->user_role);
 
@@ -73,9 +73,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($uuid)
     {
-        $data = User::with('roles')->findOrFail($id);
+
+        $data = User::with('roles')->where('uuid', $uuid)->firstOrFail();
 
         $role = $data->roles[0]['name'];
 
@@ -100,9 +101,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($uuid)
     {
-        $data = User::with('userProfile', 'roles')->findOrFail($id);
+        $data = User::with('userProfile', 'roles')->where('uuid', $uuid)->firstOrFail();
+
+        $id = $data->id;
 
         $data['user_type'] = $data->roles->pluck('id')[0] ?? null;
 
@@ -110,7 +113,7 @@ class UserController extends Controller
 
         $profileImage = getSingleMedia($data, 'profile_image');
 
-        return view('users.form', compact('data', 'id', 'roles', 'profileImage'));
+        return view('users.form', compact('data', 'id', 'roles', 'profileImage', 'uuid'));
     }
 
     /**
@@ -120,9 +123,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(UserRequest $request, $uuid)
     {
-        $user = User::with('userProfile')->findOrFail($id);
+
+        $user = User::with('userProfile')->where('uuid', $uuid)->firstOrFail();
 
         $role = Role::find($request->user_role);
 
@@ -154,7 +158,7 @@ class UserController extends Controller
         if (auth()->check()) {
             return redirect()->route('users.index')->withSuccess(__('message.msg_updated', ['name' => __('message.user')]));
         }
-        return redirect()->back()->withSuccess(__('message.msg_updated', ['name' => 'My Profile']));
+        return redirect()->back()->withSuccess(__('message.msg_updated', ['name' => 'users.update']));
     }
 
     /**
@@ -165,7 +169,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::where('uuid', $id)->firstOrFail();
         $status = 'errors';
         $message = __('global-message.delete_form', ['form' => __('users.title')]);
 

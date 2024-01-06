@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Security;
 
-use App\DataTables\PermissionsDataTable;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\PermissionRequest;
+use App\DataTables\LocationPermissionsDataTable;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\DataTables\PermissionsDataTable;
+use App\Http\Requests\PermissionRequest;
 use Spatie\Permission\Models\Permission;
+use App\DataTables\ModulePermissionsDataTable;
 
 class PermissionController extends Controller
 {
@@ -26,7 +28,7 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(PermissionsDataTable $dataTable)
+    public function index()
     {
         $pageTitle = trans('global-message.list_form_title', ['form' => trans('permissions.title')]);
 
@@ -39,8 +41,24 @@ class PermissionController extends Controller
             'title' => 'New Permission'
         ])->render()
             : '';
+        $moduleDataTable = Permission::where('type', 'module')->get();
+        $locationDataTable = Permission::where('type', 'location')->get();
+        $otherDataTable = Permission::where('type', 'other')->get();
+        // dd($locationDataTable);
 
-        return $dataTable->render('global.datatable', compact('pageTitle', 'assets', 'headerAction'));
+        return view('permissions.index', compact('moduleDataTable', 'locationDataTable', 'otherDataTable', 'pageTitle', 'headerAction'));
+    }
+
+    public function getActionModal($id)
+    {
+        $title = 'Edit Permission';
+        $id = $id;
+        $routeEdit = route('permission.edit', $id);
+        $permissionEdit = auth()->user()->hasRole('super admin') && auth()->user()->can('edit');
+        $routeDelete = route('permission.destroy', $id);
+        $permissionDelete = auth()->user()->hasRole('super admin') && auth()->user()->can('delete');
+        $message = 'Are you sure delete permission ?';
+        return view('components.action-modal', compact('id', 'title', 'routeEdit', 'routeDelete', 'message', 'permissionEdit', 'permissionDelete'))->render();
     }
 
     /**
@@ -53,7 +71,8 @@ class PermissionController extends Controller
         $data = $request->all();
         $typeOptions = [
             'module' => 'Module',
-            'location' => 'Location'
+            'location' => 'Location',
+            'other' => 'Other'
         ];
         $view = view('role-permission.form-permission', compact('typeOptions'))->render();
         return response()->json(['data' =>  $view, 'status' => true]);
@@ -98,7 +117,8 @@ class PermissionController extends Controller
         $data = Permission::query()->findOrFail($id);
         $typeOptions = [
             'module' => 'Module',
-            'location' => 'Location'
+            'location' => 'Location',
+            'other' => 'Other'
         ];
         $view = view('role-permission.form-permission', compact('typeOptions', 'data', 'id'))->render();
         return response()->json(['data' =>  $view, 'status' => true]);
