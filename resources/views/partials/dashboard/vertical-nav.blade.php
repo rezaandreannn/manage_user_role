@@ -187,6 +187,7 @@
         </ul>
     </li>
     @endcan
+    @can('truckscale')
     <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#sidebar-widget" role="button" aria-expanded="false" aria-controls="sidebar-widget">
             <i class="icon">
@@ -244,6 +245,8 @@
             </li>
         </ul>
     </li>
+    @endcan
+
     <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#sidebar-monitoring" role="button" aria-expanded="false" aria-controls="sidebar-monitoring">
             <i class="icon">
