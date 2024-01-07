@@ -41,7 +41,7 @@
     $canUpdateSettings = AuthHelper::checkUserPermission($user, 'update-setting-permission');
     $showUser = $user->hasPermissionTo('show-user') || $data->roles[0]->hasPermissionTo('show-user');
     if(auth()->user()->hasRole('super admin')) {
-    $isActiveShow = !$showUser;
+    $isActiveShow = $showUser;
     } else {
     $isActiveShow = $showUser;
     }
@@ -67,15 +67,20 @@
                         </div>
                         <ul class="d-flex nav nav-pills mb-0 text-center profile-tab" data-toggle="slider-tab" id="profile-pills-tab" role="tablist">
                             @can('update-setting-permission')
+                            @if(auth()->user()->hasRole('super admin') && auth()->id() !== $id)
                             <li class="nav-item">
-                                <a class="nav-link active show" data-bs-toggle="tab" href="#profile-feed" role="tab" aria-selected="false">Module</a>
+                                <a class="nav-link active show" data-bs-toggle="tab" href="#module" role="tab" aria-selected="false">Module</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#profile-activity" role="tab" aria-selected="false">Location</a>
+                                <a class="nav-link" data-bs-toggle="tab" href="#location" role="tab" aria-selected="false">Location</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#profile-friends" role="tab" aria-selected="false">Permission</a>
+                                <a class="nav-link" data-bs-toggle="tab" href="#menu" role="tab" aria-selected="false">Menu</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#other" role="tab" aria-selected="false">Other</a>
+                            </li>
+                            @endif
                             @endcan
                             <li class="nav-item">
                                 <a class="nav-link {{ $isActiveShow ? 'active show' : '' }}" data-bs-toggle="tab" href="#profile-profile" role="tab" aria-selected="false">Profile</a>
@@ -117,7 +122,8 @@
         <div class="col-lg-8">
             <div class="profile-content tab-content">
                 @can('update-setting-permission')
-                <div id="profile-feed" class="tab-pane fade active show">
+                @if(auth()->user()->hasRole('super admin') && auth()->id() !== $id)
+                <div id="module" class="tab-pane fade active show">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
@@ -152,7 +158,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="profile-activity" class="tab-pane fade">
+                <div id="location" class="tab-pane fade">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
@@ -187,11 +193,11 @@
                         </div>
                     </div>
                 </div>
-                <div id="profile-friends" class="tab-pane fade">
+                <div id="menu" class="tab-pane fade">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title mb-0">Permission</h4>
+                                <h4 class="card-title mb-0">Menu</h4>
                             </div>
                         </div>
                         <div class="card-body">
@@ -199,6 +205,41 @@
                                 <table class="table table-bordered">
                                     <tbody>
                                         @foreach($permissionMenu as $permission)
+                                        <tr class="{{ !isset($permission->parent_id) ? 'bg-body' : '' }}">
+                                            <td>
+                                                {{ $permission->title}}
+                                            </td>
+                                            <td class="text-center">
+                                                @php
+                                                $hasUserPermission = AuthHelper::checkUserPermission($user, $permission->id);
+
+                                                $isChecked = $hasUserPermission;
+                                                @endphp
+                                                <input class="form-check-input" type="checkbox" id="permission-{{ $permission->id }}" name="permission[{{$permission->name}}][]" value='{{ $data->id }}' {{ $isChecked ? 'checked' : '' }}>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="text-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                <div id="other" class="tab-pane fade">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title mb-0">Other</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        @foreach($permissionOther as $permission)
                                         <tr class="{{ !isset($permission->parent_id) ? 'bg-body' : '' }}">
                                             <td>
                                                 {{ $permission->title}}

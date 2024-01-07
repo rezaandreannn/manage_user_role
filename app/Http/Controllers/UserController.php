@@ -78,11 +78,12 @@ class UserController extends Controller
     {
 
         $data = User::with('roles')->where('uuid', $uuid)->firstOrFail();
+        $id = $data->id;
 
         $role = $data->roles[0]['name'];
 
-        $permissionMenu = Permission::where('type', null)
-            ->orWhere('type', '')
+        $permissionMenu = Permission::where('type', 'menu')
+            ->orWhere('type', 'Menu')
             ->get();
 
         $permissionModule = Permission::where('type', 'module')
@@ -93,7 +94,11 @@ class UserController extends Controller
             ->orWhere('type', 'Location')
             ->get();
 
-        return view('users.profile', compact('data', 'role', 'permissionMenu', 'permissionModule', 'permissionLocation'));
+        $permissionOther = Permission::where('type', 'other')
+            ->orWhere('type', 'Other')
+            ->get();
+
+        return view('users.profile', compact('data', 'role', 'permissionMenu', 'permissionModule', 'permissionLocation', 'permissionOther', 'id'));
     }
 
     /**
