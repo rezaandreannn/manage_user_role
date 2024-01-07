@@ -14,7 +14,8 @@ class RolePermission extends Controller
 {
     public function index(Request $request)
     {
-        $roles = Role::get();
+        $excludedRoles = ['super admin'];
+        $roles = Role::whereNotIn('name', $excludedRoles)->get();
 
         $permissions = Permission::get();
 
@@ -33,7 +34,7 @@ class RolePermission extends Controller
 
         if ($role && $permission) {
             if ($checked == 'insert') {
-                $role->givePermissionTo($permission);  
+                $role->givePermissionTo($permission);
             } else {
                 $role->revokePermissionTo($permission);
             }

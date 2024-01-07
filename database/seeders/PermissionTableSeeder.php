@@ -16,104 +16,163 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permissions = [
+            // other
             [
-                // id 1
                 'name' => 'role',
                 'title' => 'Role',
-            ],
+            ], //1
             [
                 'name' => 'create-role',
                 'title' => 'Create Role',
-                'parent_id' => 1
-            ],
+            ], //2
             [
                 'name' => 'update-role',
                 'title' => 'Update Role',
-                'parent_id' => 1
-            ],
+            ], //3
             [
                 'name' => 'delete-role',
                 'title' => 'Delete Role',
-                'parent_id' => 1
-            ],
+            ], //4
             [
-                // id 5
                 'name' => 'permission',
                 'title' => 'Read Permission',
-            ],
+            ], //5
             [
                 'name' => 'create-permission',
                 'title' => 'Create Permission',
-                'parent_id' => 5
-            ],
+            ], //6
             [
                 'name' => 'update-permission',
                 'title' => 'Update Permission',
-                'parent_id' => 5
-            ],
+            ], //7
             [
                 'name' => 'delete-permission',
                 'title' => 'Delete Permission',
-                'parent_id' => 5
-            ],
+            ], //8
             [
-                // id 9
                 'name' => 'role-permission',
                 'title' => 'Role Permission',
-            ],
+            ], //9
             [
-                // id 10
                 'name' => 'user-list',
                 'title' => 'User List',
-            ],
+            ], //10
             [
-                // id 11
                 'name' => 'create-user',
                 'title' => 'Create User',
-            ],
+            ], //11
             [
-                // id 12
                 'name' => 'show-user',
                 'title' => 'Show User',
-            ],
+            ], //12
             [
                 'name' => 'update-user',
                 'title' => 'Update User',
-                'parent_id' => 10
-            ],
+            ], //13
             [
                 'name' => 'delete-user',
                 'title' => 'Delete user',
-                'parent_id' => 10
-            ],
+            ], //14
             [
                 'name' => 'update-setting-permission',
                 'title' => 'Update Setting Permission',
-                'parent_id' => 10
-            ],
+            ], //15
+            // module
             [
-                // id 20
-                'name' => 'batchingplant',
+                'name' => 'batching_plant',
                 'title' => 'Batching Plant',
                 'type' => 'module'
+            ], //16
+            [
+                'name' => 'smart_monitor',
+                'title' => 'Smart Monitor',
+                'type' => 'module',
+            ], //17
+            [
+                'name' => 'truck_scale',
+                'title' => 'Truck Scale',
+                'type' => 'module',
+            ], //18
+            // location
+            [
+                'name' => 'pabrik_mojokerto',
+                'title' => 'Pabrik Mojokerto',
+                'type' => 'location',
             ],
             [
-                'name' => 'batchingplant-report',
-                'title' => 'Batching Plant Report',
-                'type' => 'module',
-                'parent_id' => 20
+                'name' => 'pabrik_aceh',
+                'title' => 'Pabrik Aceh',
+                'type' => 'location',
             ],
             [
-                'name' => 'batchingplant-jmf-read',
-                'title' => 'Batching Plant Jmf Read',
-                'type' => 'module',
-                'parent_id' => 20
+                'name' => 'pabrik_sadang',
+                'title' => 'Pabrik Sadang',
+                'type' => 'location',
+            ],
+            // menu
+            [
+                'name' => 'dashboard_batching_plant',
+                'title' => 'Dashboard',
+                'type' => 'menu',
+                'parent_id' => 16,
+                'url' => 'batchingplant.dashboard',
+                'order' => 1
             ],
             [
-                'name' => 'batchingplant-materialusage-read',
-                'title' => 'Batching Plant Material Usage Read',
-                'type' => 'module',
-                'parent_id' => 20
+                'name' => 'material_usage',
+                'title' => 'Material Usage',
+                'type' => 'menu',
+                'parent_id' => 16,
+                'url' => 'batchingplant.material.usage',
+                'order' => 2
+            ],
+            [
+                'name' => 'produksi',
+                'title' => 'Produksi',
+                'type' => 'menu',
+                'parent_id' => 16,
+                'url' => 'batchingplant.produksi',
+                'order' => 3
+            ],
+            [
+                'name' => 'dashboard_truck_scale',
+                'title' => 'Dashboard',
+                'type' => 'menu',
+                'parent_id' => 17,
+                'url' => 'truckscale.dashboard',
+                'order' => 1
+            ],
+            [
+                'name' => 'incoming_material',
+                'title' => 'Incoming Material',
+                'type' => 'menu',
+                'parent_id' => 17,
+                'url' => 'truckscale.incoming.material',
+                'order' => 2
+            ],
+            [
+                'name' => 'dashboard_smart_monitor',
+                'title' => 'Dashboard',
+                'type' => 'menu',
+                'parent_id' => 18,
+                'url' => 'truckscale.dashboard',
+                'order' => 1
+            ],
+            [
+                'name' => 'pemakaian_listrik',
+                'title' => 'Pemakain Listrik',
+                'type' => 'menu',
+                'parent_id' => 18,
+                'url' => 'truckscale.pemakaian.listrik',
+                'order' => 2
+            ],
+            [
+                'name' => 'pemakaian_air',
+                'title' => 'Pemakaian Air',
+                'type' => 'menu',
+                'parent_id' => 18,
+                'url' => 'truckscale.pemakain.air',
+                'order' => 3
             ],
         ];
 

@@ -49,6 +49,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
         $findRole = Role::query()->find($request->user_role);
 
         $request['password'] = bcrypt($request->password);
@@ -57,10 +58,10 @@ class UserController extends Controller
 
         $user = User::create($request->all());
 
-        storeMediaFile($user, $request->profile_image, 'profile_image');
+        // storeMediaFile($user, $request->profile_image, 'profile_image');
 
         // Save user Profile data...
-        $user->userProfile()->create($request->userProfile);
+        // $user->userProfile()->create($request->userProfile);
 
         $user->assignRole($findRole->name ?? 'user');
 
@@ -143,17 +144,17 @@ class UserController extends Controller
         $user->fill($request->all())->update();
 
         // Save user image...
-        if (isset($request->profile_image) && $request->profile_image != null) {
-            $user->clearMediaCollection('profile_image');
-            $user->addMediaFromRequest('profile_image')->toMediaCollection('profile_image');
-        }
+        // if (isset($request->profile_image) && $request->profile_image != null) {
+        //     $user->clearMediaCollection('profile_image');
+        //     $user->addMediaFromRequest('profile_image')->toMediaCollection('profile_image');
+        // }
 
         // user profile data....
-        if ($user->userProfile === null) {
-            $user->userProfile()->create($request->userProfile);
-        } else {
-            $user->userProfile->fill($request->userProfile)->update();
-        }
+        // if ($user->userProfile === null) {
+        //     $user->userProfile()->create($request->userProfile);
+        // } else {
+        //     $user->userProfile->fill($request->userProfile)->update();
+        // }
 
         if (auth()->check()) {
             return redirect()->route('users.index')->withSuccess(__('message.msg_updated', ['name' => __('message.user')]));

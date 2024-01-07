@@ -36,18 +36,36 @@ class PermissionController extends Controller
 
         $canCreateRole = auth()->user()->hasRole('super admin') && auth()->user()->can('create');
 
-        $headerAction = $canCreateRole ?  view('components.add-form-button', [
-            'route' => route('permission.create'),
-            'title' => 'New Permission'
+        $buttonAddModule = $canCreateRole ?  view('components.add-form-button', [
+            'route' => route('permission.create', ['type' => 'module']),
+            'title' => 'New Module'
+        ])->render()
+            : '';
+        $buttonAddLocation = $canCreateRole ?  view('components.add-form-button', [
+            'route' => route('permission.create', ['type' => 'location']),
+            'title' => 'New Location'
+        ])->render()
+            : '';
+        $buttonAddMenu = $canCreateRole ?  view('components.add-form-button', [
+            'route' => route('permission.create', ['type' => 'menu']),
+            'title' => 'New Menu'
+        ])->render()
+            : '';
+        $buttonAddOther = $canCreateRole ?  view('components.add-form-button', [
+            'route' => route('permission.create', ['type' => 'other']),
+            'title' => 'New Other'
         ])->render()
             : '';
         $moduleDataTable = Permission::where('type', 'module')->get();
+        $menuDataTable = Permission::where('type', 'menu')
+            ->orderBy('parent_id', 'asc')
+            ->get();
         $locationDataTable = Permission::where('type', 'location')->get();
         $otherDataTable = Permission::where('type', 'other')->get();
-        // dd($locationDataTable);
 
-        return view('permissions.index', compact('moduleDataTable', 'locationDataTable', 'otherDataTable', 'pageTitle', 'headerAction'));
+        return view('permissions.index', compact('moduleDataTable', 'locationDataTable', 'menuDataTable', 'otherDataTable', 'pageTitle', 'buttonAddModule', 'buttonAddLocation', 'buttonAddMenu', 'buttonAddOther'));
     }
+
 
     public function getActionModal($id)
     {
@@ -66,15 +84,13 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Request $request, $type)
     {
-        $data = $request->all();
-        $typeOptions = [
-            'module' => 'Module',
-            'location' => 'Location',
-            'other' => 'Other'
-        ];
-        $view = view('role-permission.form-permission', compact('typeOptions'))->render();
+        $module = '';
+        if ($type == 'menu') {
+            $module = Permission::where('type', 'module')->get();
+        }
+        $view = view('permissions.form-permission-module', compact('type', 'module'))->render();
         return response()->json(['data' =>  $view, 'status' => true]);
     }
 
@@ -88,7 +104,12 @@ class PermissionController extends Controller
     {
         $request['guard_name'] = 'web';
 
+        if ($request->type == 'menu') {
+            $request['parent_id'] = $request->parent_id;
+            $request['url'] = $request->url;
+        }
         $request['type'] = $request->type;
+        $request['order'] = $request->order;
 
         Permission::create($request->all());
 
@@ -115,12 +136,13 @@ class PermissionController extends Controller
     public function edit($id)
     {
         $data = Permission::query()->findOrFail($id);
-        $typeOptions = [
-            'module' => 'Module',
-            'location' => 'Location',
-            'other' => 'Other'
-        ];
-        $view = view('role-permission.form-permission', compact('typeOptions', 'data', 'id'))->render();
+        $module = '';
+
+        if ($data->type == 'menu') {
+            $module = Permission::where('type', 'module')->get();
+        }
+        $type = $data->type;
+        $view = view('permissions.form-permission-module', compact('type', 'module', 'data', 'id'))->render();
         return response()->json(['data' =>  $view, 'status' => true]);
     }
 

@@ -49,20 +49,29 @@ class UserTableSeeder extends Seeder
                 'password' => bcrypt('password'),
                 'phone_number' => '+12398190255',
                 'email_verified_at' => now(),
-                'user_type' => 'user'
+                'user_type' => 'staff'
             ]
         ];
         foreach ($users as $key => $value) {
-            $user = User::create($value);
+            $user = User::create([
+                'uuid' => $value['uuid'],
+                'username' => $value['username'],
+                'first_name' => $value['first_name'],
+                'last_name' => $value['last_name'],
+                'email' => $value['email'],
+                'phone_number' => $value['phone_number'],
+                'email_verified_at' => $value['email_verified_at'],
+                'password' => $value['password']
+            ]);
             $user->assignRole($value['user_type']);
 
             $permissions = Permission::get();
-            $superAdmin = Role::where('name', 'super admin')->first();
-            if ($superAdmin) {
-                foreach ($permissions as $permission) {
-                    $superAdmin->givePermissionTo($permission);
-                }
-            }
+            // $superAdmin = Role::where('name', 'super admin')->first();
+            // if ($superAdmin) {
+            //     foreach ($permissions as $permission) {
+            //         $superAdmin->givePermissionTo($permission);
+            //     }
+            // }
         }
     }
 }

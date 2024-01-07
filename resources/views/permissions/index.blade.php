@@ -9,19 +9,22 @@
                     <div class="d-flex flex-wrap align-items-center justify-content-between">
                         <div class="d-flex flex-wrap align-items-center">
                             <div class="d-flex flex-wrap align-items-center mb-3 mb-sm-0">
-                                <h4 class="me-2 h4"> {!! $headerAction ?? '' !!}</h4>
+                                {{-- <h4 class="me-2 h4"> {!! $headerAction ?? '' !!}</h4> --}}
                             </div>
                         </div>
                         <ul class="d-flex nav nav-pills mb-0 text-center profile-tab" data-toggle="slider-tab" id="profile-pills-tab" role="tablist">
                             @can('update-setting-permission')
                             <li class="nav-item">
-                                <a class="nav-link active show" data-bs-toggle="tab" href="#profile-feed" role="tab" aria-selected="false">Module</a>
+                                <a class="nav-link active show" data-bs-toggle="tab" href="#module" role="tab" aria-selected="false">Module</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#profile-activity" role="tab" aria-selected="false">Location</a>
+                                <a class="nav-link" data-bs-toggle="tab" href="#menu" role="tab" aria-selected="false">Menu</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#profile-friends" role="tab" aria-selected="false">Other</a>
+                                <a class="nav-link" data-bs-toggle="tab" href="#location" role="tab" aria-selected="false">Location</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#other" role="tab" aria-selected="false">Other</a>
                             </li>
                             @endcan
                         </ul>
@@ -33,11 +36,11 @@
         <div class="col-lg-12">
             <div class="profile-content tab-content">
                 @can('update-setting-permission')
-                <div id="profile-feed" class="tab-pane fade active show">
+                <div id="module" class="tab-pane fade active show">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title mb-0">Module</h4>
+                                <h4 class="me-2 h4"> {!! $buttonAddModule ?? '' !!}</h4>
                             </div>
                         </div>
                         <div class="card-body">
@@ -48,6 +51,7 @@
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Title</th>
+                                                <th>Order</th>
                                                 <th>action</th>
                                             </tr>
                                         </thead>
@@ -56,6 +60,7 @@
                                             <tr>
                                                 <td>{{$module->name}}</td>
                                                 <td>{{$module->title}}</td>
+                                                <td>{{$module->order}}</td>
                                                 <td>
                                                     @php
                                                     echo app('App\Http\Controllers\Security\PermissionController')->getActionModal($module->id);
@@ -71,11 +76,60 @@
                         </div>
                     </div>
                 </div>
-                <div id="profile-activity" class="tab-pane fade">
+                <div id="menu" class="tab-pane fade">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title mb-0">Location</h4>
+                                <h4 class="me-2 h4"> {!! $buttonAddMenu ?? '' !!}</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <div class="table-responsive">
+                                    <table id="datatable" class="table table-striped" data-toggle="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Title</th>
+                                                <th>Order</th>
+                                                <th>Module</th>
+                                                <th>action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($menuDataTable as $menu)
+                                            <tr>
+                                                <td>{{$menu->name}}</td>
+                                                <td>{{$menu->title}}</td>
+                                                <td>{{$menu->order}}</td>
+                                                <td>
+                                                    @foreach($moduleDataTable as $value)
+                                                    @if($menu->parent_id == $value->id)
+                                                    {{$value->title}}
+                                                    @endif
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @php
+                                                    echo app('App\Http\Controllers\Security\PermissionController')->getActionModal($menu->id);
+                                                    @endphp
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <div class="text-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="location" class="tab-pane fade">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="me-2 h4"> {!! $buttonAddLocation ?? '' !!}</h4>
                             </div>
                         </div>
                         <div class="card-body">
@@ -85,6 +139,7 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Title</th>
+                                            <th>Order</th>
                                             <th>action</th>
                                         </tr>
                                     </thead>
@@ -93,6 +148,7 @@
                                         <tr>
                                             <td>{{$location->name}}</td>
                                             <td>{{$location->title}}</td>
+                                            <td>{{$location->order}}</td>
                                             <td>
                                                 @php
                                                 echo app('App\Http\Controllers\Security\PermissionController')->getActionModal($location->id);
@@ -108,11 +164,11 @@
                         </div>
                     </div>
                 </div>
-                <div id="profile-friends" class="tab-pane fade">
+                <div id="other" class="tab-pane fade">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title mb-0">Other</h4>
+                                <h4 class="me-2 h4"> {!! $buttonAddOther ?? '' !!}</h4>
                             </div>
                         </div>
                         <div class="card-body">

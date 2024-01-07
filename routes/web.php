@@ -13,6 +13,7 @@ use App\Http\Controllers\Module\Batchingplant\MaterialUsage;
 // Packages
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Module\Batchingplant\ReportController;
+use Spatie\Permission\Models\Permission;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,7 +69,9 @@ Route::group(['prefix' => 'menu-style'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/role-permission', [RolePermission::class, 'index'])->name('role.permission.list');
     Route::get('/update-permission', [RolePermission::class, 'store'])->name('role.permission.store');
-    Route::resource('permission', PermissionController::class);
+    // Route::get('permission/{permission}/edit/{type}', [PermissionController::class, 'create'])->name('permission.edit');
+    Route::resource('permission', PermissionController::class)->except('create');
+    Route::get('permission/create/{type}', [PermissionController::class, 'create'])->name('permission.create');
     Route::resource('role', RoleController::class);
 
     // Dashboard Routes
