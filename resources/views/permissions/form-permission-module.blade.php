@@ -11,7 +11,7 @@
     <label class="form-label">Select Modul</label>
     <select class="form-select" name="parent_id" aria-label="Default select example">
         @foreach($module as $modul)
-        <option value="{{ $modul->id}}">{{$modul->title }}</option>
+        <option value="{{ $modul->id }}" {{ $modul->id == $data->parent_id ? 'selected' : '' }}>{{$modul->title }}</option>
         @endforeach
     </select>
 </div>

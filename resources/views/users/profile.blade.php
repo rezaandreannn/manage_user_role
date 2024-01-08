@@ -40,8 +40,8 @@
     $user = App\Models\User::find($data->id);
     $canUpdateSettings = AuthHelper::checkUserPermission($user, 'update-setting-permission');
     $showUser = $user->hasPermissionTo('show-user') || $data->roles[0]->hasPermissionTo('show-user');
-    if(auth()->user()->hasRole('super admin')) {
-    $isActiveShow = $showUser;
+    if(auth()->user()->hasRole('super admin') && auth()->id() !== $id) {
+    $isActiveShow = !$showUser;
     } else {
     $isActiveShow = $showUser;
     }

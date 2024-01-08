@@ -17,9 +17,12 @@ class RolePermission extends Controller
         $excludedRoles = ['super admin'];
         $roles = Role::whereNotIn('name', $excludedRoles)->get();
 
-        $permissions = Permission::get();
+        $modulePermissions = Permission::where('type', 'module')->get();
+        $locationPermissions = Permission::where('type', 'location')->get();
+        $menuPermissions = Permission::where('type', 'menu')->get();
+        $otherPermissions = Permission::where('type', 'other')->get();
 
-        return view('role-permission.permissions', compact('roles', 'permissions'));
+        return view('role-permission.permissions', compact('roles', 'modulePermissions', 'locationPermissions', 'menuPermissions', 'otherPermissions'));
     }
 
     public function store(Request $request)
