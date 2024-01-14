@@ -49,6 +49,7 @@
                                     <table id="datatable" class="table table-striped" data-toggle="data-table">
                                         <thead>
                                             <tr>
+                                                <th>Location</th>
                                                 <th>Name</th>
                                                 <th>Title</th>
                                                 <th>Order</th>
@@ -58,6 +59,11 @@
                                         <tbody>
                                             @foreach($moduleDataTable as $module)
                                             <tr>
+                                                <td>
+                                                    @foreach($locationDataTable as $location)
+                                                    {{ $location->id == $module->parent_id ? $location->title : ''}}
+                                                    @endforeach
+                                                </td>
                                                 <td>{{$module->name}}</td>
                                                 <td>{{$module->title}}</td>
                                                 <td>{{$module->order}}</td>
@@ -89,26 +95,49 @@
                                     <table id="datatable" class="table table-striped" data-toggle="data-table">
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
+                                                <th>Location</th>
+                                                <th>Module</th>
                                                 <th>Title</th>
                                                 <th>Order</th>
-                                                <th>Module</th>
+                                                {{-- <th>Description</th> --}}
                                                 <th>action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach($menuDataTable as $menu)
                                             <tr>
-                                                <td>{{$menu->name}}</td>
-                                                <td>{{$menu->title}}</td>
-                                                <td>{{$menu->order}}</td>
                                                 <td>
-                                                    @foreach($moduleDataTable as $value)
-                                                    @if($menu->parent_id == $value->id)
-                                                    {{$value->title}}
+                                                    @foreach($moduleDataTable as $modul)
+                                                    @if($menu->parent_id == $modul->id)
+                                                    @foreach($locationDataTable as $location)
+                                                    @if($modul->parent_id == $location->id)
+                                                    {{ $location->title }}
+                                                    @endif
+                                                    @endforeach
                                                     @endif
                                                     @endforeach
                                                 </td>
+                                                <td>
+                                                    @foreach($moduleDataTable as $value)
+                                                    @if($menu->parent_id == $value->id)
+                                                    @php
+                                                    $bg = '';
+                                                    if($value->aliases == 'BP'){
+                                                    $bg = 'success';
+                                                    }else if($value->aliases == 'TS'){
+                                                    $bg = 'warning';
+                                                    }else{
+                                                    $bg = 'primary';
+                                                    }
+                                                    @endphp
+                                                    <div class="badge rounded-pill bg-{{ $bg}} item-name">
+                                                        {{ $value->aliases}}
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
+                                                </td>
+                                                <td>{{$menu->title}}</td>
+                                                <td>{{$menu->order}}</td>
                                                 <td>
                                                     @php
                                                     echo app('App\Http\Controllers\Security\PermissionController')->getActionModal($menu->id);

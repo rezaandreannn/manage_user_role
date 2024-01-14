@@ -41,9 +41,9 @@
     $canUpdateSettings = AuthHelper::checkUserPermission($user, 'update-setting-permission');
     $showUser = $user->hasPermissionTo('show-user') || $data->roles[0]->hasPermissionTo('show-user');
     if(auth()->user()->hasRole('super admin') && auth()->id() !== $id) {
-    $isActiveShow = !$showUser;
-    } else {
     $isActiveShow = $showUser;
+    } else {
+    $isActiveShow = !$showUser;
     }
     @endphp
     <div class="row">

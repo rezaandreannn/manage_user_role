@@ -79,31 +79,37 @@ class PermissionTableSeeder extends Seeder
             ], //15
             // module
             [
-                'name' => 'batching_plant',
+                'name' => 'batching_plant_mj',
                 'title' => 'Batching Plant',
-                'type' => 'module'
+                'type' => 'module',
+                'parent_id' => '19',
+                'aliases' => 'BP'
             ], //16
             [
-                'name' => 'smart_monitor',
+                'name' => 'smart_monitor_mj',
                 'title' => 'Smart Monitor',
                 'type' => 'module',
+                'parent_id' => '19',
+                'aliases' => 'SM'
             ], //17
             [
-                'name' => 'truck_scale',
+                'name' => 'truck_scale_mj',
                 'title' => 'Truck Scale',
                 'type' => 'module',
+                'parent_id' => '19',
+                'aliases' => 'TS'
             ], //18
             // location
             [
                 'name' => 'pabrik_mojokerto',
                 'title' => 'Pabrik Mojokerto',
                 'type' => 'location',
-            ],
+            ],  //19
             [
                 'name' => 'pabrik_aceh',
                 'title' => 'Pabrik Aceh',
                 'type' => 'location',
-            ],
+            ], //20
             [
                 'name' => 'pabrik_sadang',
                 'title' => 'Pabrik Sadang',
@@ -119,7 +125,7 @@ class PermissionTableSeeder extends Seeder
                 'order' => 1
             ],
             [
-                'name' => 'material_usage',
+                'name' => 'material_usage_batching_plant',
                 'title' => 'Material Usage',
                 'type' => 'menu',
                 'parent_id' => 16,
@@ -127,7 +133,7 @@ class PermissionTableSeeder extends Seeder
                 'order' => 2
             ],
             [
-                'name' => 'produksi',
+                'name' => 'produksi_batching_plant',
                 'title' => 'Produksi',
                 'type' => 'menu',
                 'parent_id' => 16,
@@ -138,15 +144,15 @@ class PermissionTableSeeder extends Seeder
                 'name' => 'dashboard_truck_scale',
                 'title' => 'Dashboard',
                 'type' => 'menu',
-                'parent_id' => 17,
+                'parent_id' => 18,
                 'url' => 'truckscale.dashboard',
                 'order' => 1
             ],
             [
-                'name' => 'incoming_material',
+                'name' => 'incoming_material_truck_scale',
                 'title' => 'Incoming Material',
                 'type' => 'menu',
-                'parent_id' => 17,
+                'parent_id' => 18,
                 'url' => 'truckscale.incoming.material',
                 'order' => 2
             ],
@@ -154,7 +160,7 @@ class PermissionTableSeeder extends Seeder
                 'name' => 'dashboard_smart_monitor',
                 'title' => 'Dashboard',
                 'type' => 'menu',
-                'parent_id' => 18,
+                'parent_id' => 17,
                 'url' => 'truckscale.dashboard',
                 'order' => 1
             ],
@@ -162,7 +168,7 @@ class PermissionTableSeeder extends Seeder
                 'name' => 'pemakaian_listrik',
                 'title' => 'Pemakain Listrik',
                 'type' => 'menu',
-                'parent_id' => 18,
+                'parent_id' => 17,
                 'url' => 'truckscale.pemakaian.listrik',
                 'order' => 2
             ],
@@ -170,7 +176,7 @@ class PermissionTableSeeder extends Seeder
                 'name' => 'pemakaian_air',
                 'title' => 'Pemakaian Air',
                 'type' => 'menu',
-                'parent_id' => 18,
+                'parent_id' => 17,
                 'url' => 'truckscale.pemakain.air',
                 'order' => 3
             ],

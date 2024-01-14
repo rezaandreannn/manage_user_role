@@ -86,11 +86,19 @@ class PermissionController extends Controller
      */
     public function create(Request $request, $type)
     {
-        $module = '';
+        $parents = '';
+        $locations = '';
         if ($type == 'menu') {
-            $module = Permission::where('type', 'module')->get();
+            $parents = Permission::where('type', 'module')->get();
+            $locations =  Permission::where('type', 'location')->get();
+        } elseif ($type == 'module') {
+            $parents = Permission::where('type', 'location')->get();
+        } else {
         }
-        $view = view('permissions.form-permission-module', compact('type', 'module'))->render();
+
+
+
+        $view = view('permissions.form-permission-module', compact('type', 'parents', 'locations'))->render();
         return response()->json(['data' =>  $view, 'status' => true]);
     }
 
@@ -106,10 +114,10 @@ class PermissionController extends Controller
 
         if ($request->type == 'menu') {
             $request['parent_id'] = $request->parent_id;
-            $request['url'] = $request->url;
+            $request['url'] = $request->url ?? '';
         }
-        $request['type'] = $request->type;
-        $request['order'] = $request->order;
+        $request['type'] = $request->type ?? '';
+        $request['order'] = $request->order ?? '';
 
         Permission::create($request->all());
 
@@ -136,13 +144,17 @@ class PermissionController extends Controller
     public function edit($id)
     {
         $data = Permission::query()->findOrFail($id);
-        $module = '';
+        $parents = '';
 
         if ($data->type == 'menu') {
-            $module = Permission::where('type', 'module')->get();
+            $parents = Permission::where('type', 'module')->get();
+        } elseif ($data->type == 'module') {
+            $param = 'location';
+            $parents = Permission::where('type', 'location')->get();
+        } else {
         }
         $type = $data->type;
-        $view = view('permissions.form-permission-module', compact('type', 'module', 'data', 'id'))->render();
+        $view = view('permissions.form-permission-module', compact('type', 'parents', 'data', 'id'))->render();
         return response()->json(['data' =>  $view, 'status' => true]);
     }
 

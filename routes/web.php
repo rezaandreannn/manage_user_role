@@ -13,6 +13,7 @@ use App\Http\Controllers\Module\Batchingplant\MaterialUsage;
 // Packages
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Module\Batchingplant\ReportController;
+use App\Models\BatchingPlant;
 use Spatie\Permission\Models\Permission;
 
 /*
@@ -28,8 +29,8 @@ use Spatie\Permission\Models\Permission;
 
 require __DIR__ . '/auth.php';
 
-// Route::get('/storage', function () {
-//     Artisan::call('storage:link');
+// Route::get('/test', function () {
+//     return BatchingPlant::all();
 // });
 
 
