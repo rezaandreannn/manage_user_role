@@ -51,10 +51,10 @@
     <label class="form-label">{{ ucfirst($type) ?? 'Permission'}} Name</label>
     {{ Form::text('name', old('name'), ['class' => 'form-control','id' => 'permission-name', 'placeholder' => ucfirst($type) . ' Name', 'required', 'autocomplete' => 'off']) }}
 </div>
-@if($type == 'module')
+@if($type == 'module' || $type == 'location')
 <div class="form-group">
-    <label class="form-label">Alias</label>
-    {{ Form::text('aliases', old('aliases'), ['class' => 'form-control','id' => 'permission-name', 'placeholder' => 'BP', 'autocomplete' => 'off']) }}
+    <label class="form-label">Prefix</label>
+    {{ Form::text('aliases', old('aliases'), ['class' => 'form-control','id' => 'permission-name', 'placeholder' => 'Prefix', 'autocomplete' => 'off']) }}
 </div>
 @endif
 @if($type != 'other')
