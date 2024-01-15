@@ -77,6 +77,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Module
     Route::group(['prefix' => 'module'], function () {
+        route::get('batchingplant/produksi', [ProduksiController::class, 'index'])->name('batchingplant.produksi.index');
+        route::get('batchingplant/customer', [ProduksiController::class, 'customer'])->name('batchingplant.customer.index');
         route::get('batchingplant/report', [ReportController::class, 'index'])->name('batchingplant.report.index');
         route::get('batchingplant/jmf', [JmfController::class, 'index'])->name('batchingplant.jmf.index');
         route::get('batchingplant/material-usage', [MaterialUsage::class, 'index'])->name('batchingplant.material_usage.index');

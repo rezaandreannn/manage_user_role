@@ -98,3 +98,13 @@ function getFileExistsCheck($media)
     }
     return $mediaCondition;
 }
+
+// Add Luck
+function formatNominal($nilai) {
+    $nilaiStr = number_format($nilai, 2, ',', '.');
+    return rtrim(rtrim($nilaiStr, '0'), ',');
+}
+
+function calcDeviasi($nilai1, $nilai2) {
+    return sprintf("%+.2f%%", (($nilai1 - $nilai2) / $nilai2) * 100);
+}
