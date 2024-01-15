@@ -11,12 +11,15 @@ use App\Http\Controllers\Security\PermissionController;
 use App\Http\Controllers\Module\Batchingplant\JmfController;
 use App\Http\Controllers\Module\Batchingplant\MaterialUsage;
 // Packages
+
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Module\BatchingPlant\ProduksiController;
 use App\Http\Controllers\Module\Batchingplant\ReportController;
 use App\Models\BatchingPlant;
 use Spatie\Permission\Models\Permission;
 
+use App\Http\Controllers\Module\Truckscale\IncomingController;
+use App\Http\Controllers\Module\Truckscale\MaterialController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -82,6 +85,9 @@ Route::group(['middleware' => 'auth'], function () {
         route::get('batchingplant/report', [ReportController::class, 'index'])->name('batchingplant.report.index');
         route::get('batchingplant/jmf', [JmfController::class, 'index'])->name('batchingplant.jmf.index');
         route::get('batchingplant/material-usage', [MaterialUsage::class, 'index'])->name('batchingplant.material_usage.index');
+
+        route::get('truckscale/incoming', [IncomingController::class, 'index'])->name('truckscale.incoming.index');
+        route::get('truckscale/material', [MaterialController::class, 'index'])->name('truckscale.material.index');
     });
 });
 

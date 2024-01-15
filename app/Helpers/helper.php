@@ -106,5 +106,15 @@ function formatNominal($nilai) {
 }
 
 function calcDeviasi($nilai1, $nilai2) {
+    if(empty($nilai1) || empty($nilai2) || $nilai1 < 0.01 || $nilai2 < 0.01){
+        return '';
+    }
     return sprintf("%+.2f%%", (($nilai1 - $nilai2) / $nilai2) * 100);
+}
+
+function calcPesentase($nilai1, $nilai2) {
+    if(empty($nilai1) || empty($nilai2) || $nilai1 < 0.01 || $nilai2 < 0.01){
+        return '';
+    }
+    return sprintf("%.2f%%", ($nilai1 / $nilai2) * 100);
 }
