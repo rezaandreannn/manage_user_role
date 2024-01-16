@@ -16,7 +16,6 @@ class Location extends Model
     }
 
     public function getTableName($id_module){
-        
         return $result;
     }
 

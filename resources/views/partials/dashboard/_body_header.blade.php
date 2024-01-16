@@ -1,15 +1,15 @@
 <nav class="nav navbar navbar-expand-lg navbar-light iq-navbar">
     <div class="container-fluid navbar-inner">
         <a href="{{route('dashboard')}}" class="navbar-brand">
-            <svg width="30" class="text-primary" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {{-- <svg width="30" class="text-primary" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="-0.757324" y="19.2427" width="28" height="4" rx="2" transform="rotate(-45 -0.757324 19.2427)" fill="currentColor" />
                 <rect x="7.72803" y="27.728" width="28" height="4" rx="2" transform="rotate(-45 7.72803 27.728)" fill="currentColor" />
                 <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
                 <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
-            </svg>
-            <h4 class="logo-title">{{env('APP_NAME')}}</h4>
+            </svg> --}}
+            <h4 class="logo-title mx-0">{{env('APP_NAME')}}</h4>
         </a>
-        <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
+        <div class="sidebar-toggle mx-n2" data-toggle="sidebar" data-active="true">
             <i class="icon">
                 <svg width="20px" height="20px" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z" />

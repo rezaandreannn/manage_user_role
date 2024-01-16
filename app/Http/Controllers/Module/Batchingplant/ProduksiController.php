@@ -89,8 +89,30 @@ class ProduksiController extends Controller
         !empty($customer) ?  $Dmaterial->whereIn('bp_tickets.customer', $customer) : null;
 
                 
-        $Dmaterial = $Dmaterial->groupBy('bp_materials.name','bp_materials.code', 'bp_materials.satuan')->get();      
-                // dd($Dcustomer, $Ddetail, $Dmaterial);
-        return view('module.bp.prodcust', compact('Dcustomer', 'Ddetail', 'Dmaterial'));
+        $Dmaterial = $Dmaterial->groupBy('bp_materials.name','bp_materials.code', 'bp_materials.satuan')->get();    
+        
+        $Ddocket = DB::connection('second_db')->table('bp_tickets')
+        ->select('bp_tickets.ticket_number as docket', 
+                'bp_batch_header.batch_start as start_date', 
+                'bp_batch_header.batch_end as end_date', 
+                'bp_tickets.load_qty as qty', 
+                'bp_tickets.delivered_qty as delivered_qty', 
+                'bp_tickets.ordered_qty as ordered_qty', 
+                'bp_tickets.driver as driver', 
+                'bp_tickets.truck as truck', 
+                'bp_location.code as bpcode')
+        ->join('bp_jobmix_header',function($join) {
+            $join->on('bp_jobmix_header.id','=','bp_tickets.id_jobmix_header')
+            ->where('bp_tickets.id_jobmix_header','>',0);
+        })
+        ->join('bp_location','bp_location.id','=','bp_tickets.id_batchingplant')
+        ->join('bp_batch_header','bp_batch_header.id_tickets','=','bp_tickets.id')
+        ->where('bp_tickets.customer','=','PT.ADHI KARYA')
+        ->whereNotNull('bp_tickets.ticket_number')
+        ->where('bp_jobmix_header.name','=','FC 30 Mpa')
+        ->get();
+
+                // dd($Dcustomer, $Ddetail, $Dmaterial, $Ddocket);
+        return view('module.bp.prodcust', compact('Dcustomer', 'Ddetail', 'Dmaterial', 'Ddocket'));
     }
 }

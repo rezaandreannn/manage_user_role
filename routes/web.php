@@ -15,11 +15,15 @@ use App\Http\Controllers\Module\Batchingplant\MaterialUsage;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Module\BatchingPlant\ProduksiController;
 use App\Http\Controllers\Module\Batchingplant\ReportController;
+use App\Http\Controllers\Module\Batchingplant\BPMaterial;
 use App\Models\BatchingPlant;
 use Spatie\Permission\Models\Permission;
 
 use App\Http\Controllers\Module\Truckscale\IncomingController;
+use App\Http\Controllers\Module\Truckscale\VendorController;
 use App\Http\Controllers\Module\Truckscale\MaterialController;
+
+use App\Http\Controllers\Module\Dashboard\MainDashboard;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -80,14 +84,20 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Module
     Route::group(['prefix' => 'module'], function () {
-        route::get('batchingplant/produksi', [ProduksiController::class, 'index'])->name('batchingplant.produksi.index');
-        route::get('batchingplant/customer', [ProduksiController::class, 'customer'])->name('batchingplant.customer.index');
-        route::get('batchingplant/report', [ReportController::class, 'index'])->name('batchingplant.report.index');
-        route::get('batchingplant/jmf', [JmfController::class, 'index'])->name('batchingplant.jmf.index');
-        route::get('batchingplant/material-usage', [MaterialUsage::class, 'index'])->name('batchingplant.material_usage.index');
+        route::get('dashboard/main', [MainDashboard::class, 'index'])->name('dashboard.main.index');
 
-        route::get('truckscale/incoming', [IncomingController::class, 'index'])->name('truckscale.incoming.index');
+
+        route::get('batchingplant/docket', [ProduksiController::class, 'index'])->name('batchingplant.docket.index');
+        route::get('batchingplant/customer', [ProduksiController::class, 'customer'])->name('batchingplant.customer.index');
+        route::get('batchingplant/material', [BPMaterial::class, 'index'])->name('batchingplant.material.index');
+        // route::get('batchingplant/report', [ReportController::class, 'index'])->name('batchingplant.report.index');
+        // route::get('batchingplant/jmf', [JmfController::class, 'index'])->name('batchingplant.jmf.index');
+        // route::get('batchingplant/material-usage', [MaterialUsage::class, 'index'])->name('batchingplant.material_usage.index');
+
+        route::get('truckscale/docket', [IncomingController::class, 'index'])->name('truckscale.docket.index');
+        route::get('truckscale/vendor', [VendorController::class, 'index'])->name('truckscale.vendor.index');
         route::get('truckscale/material', [MaterialController::class, 'index'])->name('truckscale.material.index');
+        // route::get('truckscale/vendor', [VendorController::class, 'index'])->name('truckscale.vendor.index');
     });
 });
 

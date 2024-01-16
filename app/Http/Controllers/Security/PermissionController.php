@@ -27,26 +27,26 @@ class PermissionController extends Controller
     }
 
 
-    private function _tableName($id_module){
-        $collection = Permission::select('table_name')->where('id', '=', $id_module)->get()->toArray(); 
-        return $collection->pluck('table_name');
+    // private function _tableName($id_module){
+    //     $collection = Permission::select('table_name')->where('id', '=', $id_module)->get()->toArray(); 
+    //     return $collection->pluck('table_name');
         
-    }
-    public function _getLocationModule($id_module){
+    // }
+    // public function _getLocationModule($id_module){
 
-        $collection = Permission::select('table_name')->where('id', '=', $id_module)->get()->toArray(); 
-        switch($collection['table_name']){
-            case 'batchingplant' :
-            $conn = DB::connection('second_db')
-            ->table('db_batchingplant');
-            break;
-        }
+    //     $collection = Permission::select('table_name')->where('id', '=', $id_module)->get()->toArray(); 
+    //     switch($collection['table_name']){
+    //         case 'batchingplant' :
+    //         $conn = DB::connection('second_db')
+    //         ->table('db_batchingplant');
+    //         break;
+    //     }
 
 
-        $result = $conn->select('id','name')
-            ->get();
-        return $result;
-    }
+    //     $result = $conn->select('id','name')
+    //         ->get();
+    //     return $result;
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -100,18 +100,18 @@ class PermissionController extends Controller
         // dd($moduleDataTable);
 
 
-        for ($i=0; $i < count($moduleDataTable) ; $i++) { 
-            $table_name = $this->_getLocationModule($moduleDataTable[$i]->id);
-            dd($table_name);
+        // for ($i=0; $i < count($moduleDataTable) ; $i++) { 
+        //     $table_name = $this->_getLocationModule($moduleDataTable[$i]->id);
+        //     dd($table_name);
 
-            $forloopModule[$i]['name'] = $moduleDataTable[$i]->title;
-            $forloopModule[$i]['name'] = DB::connection('second_db')
-            ->table($data[$i]['table_name'])
-            ->select('name')
-            ->get();
-            // $forloopModule[$i]['name'] = $this->_getLocationModule($moduleDataTable[$i]->id);
-        }
-        dd($forloopModule);
+        //     $forloopModule[$i]['name'] = $moduleDataTable[$i]->title;
+        //     $forloopModule[$i]['name'] = DB::connection('second_db')
+        //     ->table($data[$i]['table_name'])
+        //     ->select('name')
+        //     ->get();
+        //     // $forloopModule[$i]['name'] = $this->_getLocationModule($moduleDataTable[$i]->id);
+        // }
+        // dd($forloopModule);
 
         return view('permissions.index', compact('moduleDataTable', 'locationDataTable', 'menuDataTable', 'otherDataTable', 'pageTitle', 'buttonAddModule', 'buttonAddLocation', 'buttonAddMenu', 'buttonAddOther'));
     }

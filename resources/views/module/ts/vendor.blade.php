@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-header d-flex justify-content-between">
                     <div class="header-title">
-                        <h4 class="card-title">Produksi Percustomer</h4>
+                        <h4 class="card-title">Material Pervendor</h4>
                     </div>
                 </div>
                 <div class="card-body">
@@ -43,9 +43,9 @@
                             </div>
                             <div class="form-group px-2 mb-0" style="min-width:min-content">
                                 <select class="form-select">
-                                    <option selected="" disabled="" value="">Pilih Customer</option>
-                                    @foreach ($Dcustomer as $val)
-                                        <option value=""> {{ $val->customer }}</option>
+                                    <option selected="" disabled="" value="">Pilih Material</option>
+                                    @foreach ($Dmaterial as $val)
+                                        <option value=""> {{ $val->material_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -56,29 +56,29 @@
                     </div>
                     <div class="row">
                         <div class="table-responsive">
-                            <table id="datatable" class="table table-striped" data-toggle="data-table">
+                            <table id="datatable" class="table table-sm" data-toggle="data-table">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Customer</th>
-                                        <th>Mutu</th>
-                                        <th>Slump</th>
-                                        <th>Volume</th>
-                                        <th>BP Code</th>
-                                        <th>#</th>
+                                        <th class="py-2">Vendor Name</th>
+                                        <th class="py-2">Material Name</th>
+                                        <th class="py-2">Akumulasi Netto Real</th>
+                                        <th class="py-2">Akumulasi Netto</th>
+                                        <th class="py-2">Potongan Kadar Air</th>
+                                        <th class="py-2">#</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($Ddetail as $key => $val)
+                                    @foreach ($Ddetail as $val)
                                         <tr>
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{ $val->customer }}</td>
-                                            <td>{{ $val->mutu }}</td>
-                                            <td>{{ $val->slump }}</td>
-                                            <td>{{ formatNominal($val->akumulasi) }} m3</td>
-                                            <td>{{ $val->bpcode }}</td>
-                                            <td>
-                                                <a class="btn btn-sm btn-icon btn-info" data-bs-toggle="modal"
+                                            <td class="py-3">{{ $val->vendor_name }}</td>
+                                            <td>{{ $val->material_name }}</td>
+                                            <td>{{ formatNominal($val->akumulasi + $val->kadar_air_kg) }}
+                                                {{ $val->type_satuan }}</td>
+                                            <td>{{ formatNominal($val->akumulasi) }} {{ $val->type_satuan }}</td>
+                                            <td>{{ formatNominal($val->kadar_air_kg) }} {{ $val->type_satuan }} <span
+                                                    class="badge bg-success text-white">{{ calcPesentase($val->kadar_air_kg, $val->akumulasi) }}</span>
+                                            </td>
+                                            <td><a class="btn btn-sm btn-icon btn-info" data-bs-toggle="modal"
                                                     data-bs-target="#exampleModal">
                                                     <span class="btn-inner">
                                                         <svg width="32" viewBox="0 0 24 24" fill="none"
@@ -118,7 +118,8 @@
         <div class="modal-dialog modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h5 class="modal-title" id="exampleModalLabel" style="color:white">Detail Akumulasi Produksi</h5>
+                    <h5 class="modal-title" id="exampleModalLabel" style="color:white">Detail Penerimaan - RMC
+                        Margomulyo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -126,14 +127,14 @@
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <div class="form-group pt-2">
                                 <div class="form-floating custom-form-floating custom-form-floating-sm mb-3">
-                                    <input type="text" class="form-control" value="PT Adhi Karya" readonly>
-                                    <label>Customer</label>
+                                    <input type="text" class="form-control" value="CV. AGUNG SEMBADA" readonly>
+                                    <label>Nama Vendor</label>
                                 </div>
                             </div>
                             <div class="form-group pt-2">
                                 <div class="form-floating custom-form-floating custom-form-floating-sm mb-3">
-                                    <input type="text" class="form-control" value="12+-2" readonly>
-                                    <label>Mutu</label>
+                                    <input type="text" class="form-control" value="PASIR SRUMBUNG" readonly>
+                                    <label>Nama Material</label>
                                 </div>
                             </div>
                         </div>
@@ -141,14 +142,14 @@
                         <div class="col-lg-4 col-md-4 col-sm-12">
                             <div class="form-group pt-2">
                                 <div class="form-floating custom-form-floating custom-form-floating-sm mb-3">
-                                    <input type="email" class="form-control" value="BP1 - Margomulyo" readonly>
-                                    <label>BP Name</label>
+                                    <input type="email" class="form-control" value="200.360 Kg (+8,59%)" readonly>
+                                    <label>Akumulasi Netto Real</label>
                                 </div>
                             </div>
                             <div class="form-group pt-2">
                                 <div class="form-floating custom-form-floating custom-form-floating-sm mb-3">
-                                    <input type="text" class="form-control" value="182 m3" readonly>
-                                    <label>Total Volume</label>
+                                    <input type="text" class="form-control" value="184.511 Kg" readonly>
+                                    <label>Akumulasi Netto</label>
                                 </div>
                             </div>
                         </div>
@@ -168,100 +169,55 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <nav>
-                                <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
-                                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
-                                        data-bs-target="#nav-home" type="button" role="tab"
-                                        aria-controls="nav-home" aria-selected="true">Material Usage</button>
-                                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
-                                        data-bs-target="#nav-profile" type="button" role="tab"
-                                        aria-controls="nav-profile" aria-selected="false">Docket Number</button>
-                                </div>
-                            </nav>
-                        </div>
-                        <div class="tab-content" id="">
-                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                                aria-labelledby="nav-home-tab">
-                                <div class="table-responsive">
-                                    <table id="datatable" class="table table-sm table-striped"
-                                        data-toggle="data-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="py-2 px-3">No</th>
-                                                <th class="py-2">Material Code</th>
-                                                <th class="py-2">Material Name</th>
-                                                <th class="py-2">Akumulasi Target</th>
-                                                <th class="py-2">Akumulasi Aktual </th>
-                                                <th class="py-2">Akumulasi Deviasi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($Dmaterial as $key => $val)
-                                                <tr>
-                                                    <td class="py-2 px-4">{{ $key + 1 }}</td>
-                                                    <td class="py-2">{{ $val->material_code }}</td>
-                                                    <td class="py-2">{{ $val->material_name }}</td>
-                                                    <td class="py-2">{{ formatNominal($val->target) }}
-                                                        <small>{{ $val->satuan }}</small>
-                                                    </td>
-                                                    <td class="py-2">{{ formatNominal($val->actual) }}
-                                                        <small>{{ $val->satuan }}</small>
-                                                    </td>
-                                                    <td class="py-2">{{ calcDeviasi($val->actual, $val->target) }}
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="nav-profile" role="tabpanel"
-                                aria-labelledby="nav-profile-tab">
-                                <div class="table-responsive">
-                                    <table id="datatable" class="table table-sm table-striped"
-                                        data-toggle="data-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="py-2 px-3">Docket</th>
-                                                <th class="py-2">Start Date</th>
-                                                <th class="py-2">End Date</th>
-                                                <th class="py-2">Qty</th>
-                                                <th class="py-2">Accumulate</th>
-                                                <th class="py-2">Supir</th>
-                                                <th class="py-2">Truck</th>
-                                                <th class="py-2">BP</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($Ddocket as $key => $val)
-                                                <tr>
-                                                    <td>{{ $val->docket }}</td>
-                                                    <td>{{ date('Y-m-d H:i', strtotime($val->start_date)) }}</td>
-                                                    <td>{{ date('Y-m-d H:i', strtotime($val->end_date)) }}</td>
-                                                    <td>{{ formatNominal($val->qty) }} <small>m3</small></td>
-                                                    <td>{{ formatNominal($val->delivered_qty) }} of {{ formatNominal($val->ordered_qty) }} <small>m3</small></td>
-                                                    <td>{{ $val->driver }}</td>
-                                                    <td>{{ $val->truck }}</td>
-                                                    <td>{{ $val->bpcode }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                    <div class="row pt-3">
+                        <div class="table-responsive">
+                            <table id="datatable" class="table table-sm table-striped" data-toggle="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Docket</th>
+                                        <th>Surat Jalan</th>
+                                        <th>Date</th>
+                                        <th>Gross Real</th>
+                                        <th>Gross</th>
+                                        <th>Tare</th>
+                                        <th>Kadar Air</th>
+                                        <th>Netto</th>
+                                        <th>Netto Real</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($Dtransaction as $key => $val)
+                                        <tr>
+                                            <td class="py-2" style="font-size:12px">{{ $val->docket }}</td>
+                                            <td style="font-size:13px">{{ $val->surat_jalan }}</td>
+                                            <td style="font-size:13px">{{ date('Y-m-d H:i', strtotime($val->date_masuk)) }}</td>
+                                            <td style="font-size:13px">{{ formatNominal($val->gross_real) }}
+                                                <small>{{ $val->satuan }}</small></td>
+                                            <td style="font-size:13px">{{ formatNominal($val->gross) }} <small>{{ $val->satuan }}</small>
+                                            </td>
+                                            <td style="font-size:13px">{{ formatNominal($val->tare) }} <small>{{ $val->satuan }}</small>
+                                            </td>
+                                            <td style="font-size:13px">{{ formatNominal($val->kadar_air_kg) }}
+                                                <small>{{ $val->satuan }}</small> <span
+                                                    class="badge bg-success text-white">{{ $val->kadar_air_persen }}%</span>
+                                            </td>
+                                            <td style="font-size:13px">{{ formatNominal($val->netto) }} <small>{{ $val->satuan }}</small>
+                                            </td>
+                                            <td style="font-size:13px">{{ formatNominal($val->netto + $val->kadar_air_kg) }}
+                                                <small>{{ $val->satuan }}</small></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
     {{-- End Div --}}
