@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Helpers\AuthHelper;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\UserRequest;
+use App\Models\UserLocation;
 use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
@@ -20,7 +21,7 @@ class UserController extends Controller
     public function index(UsersDataTable $dataTable)
     {
 
-        // dd(User::with('roles')->get());
+        // dd(UserLocation::where('model_id', 2)->get());
 
         $pageTitle = trans('global-message.list_form_title', ['form' => trans('users.title')]);
         $auth_user = AuthHelper::authSession();

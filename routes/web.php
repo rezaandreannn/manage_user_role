@@ -22,6 +22,8 @@ use App\Http\Controllers\Module\Truckscale\VendorController;
 use App\Http\Controllers\Module\Truckscale\MaterialController;
 
 use App\Http\Controllers\Module\Dashboard\MainDashboard;
+use App\Http\Controllers\UpdateLocationToNavbarController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +40,8 @@ require __DIR__ . '/auth.php';
 // Route::get('/test', function () {
 //     return BatchingPlant::all();
 // });
+
+Route::post('update/location', [UpdateLocationToNavbarController::class, 'update'])->name('update.location');
 
 
 Route::get('/', [AuthenticatedSessionController::class, 'create'])

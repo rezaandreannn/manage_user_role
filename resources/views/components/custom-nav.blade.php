@@ -1,4 +1,6 @@
 @foreach($locations as $location)
+@foreach(\App\Models\UserLocation::where('model_id', auth()->user()->id)->where('is_primary', true)->get() as $userLocation)
+@if($userLocation->permission_id == $location->id)
 @can($location->name)
 <li>
     <hr class="hr-horizontal">
@@ -57,6 +59,8 @@
 @endif
 @endforeach
 @endcan
+@endif
+@endforeach
 @endforeach
 
 {{-- <script>

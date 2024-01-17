@@ -30,7 +30,7 @@ class PermissionController extends Controller
     // private function _tableName($id_module){
     //     $collection = Permission::select('table_name')->where('id', '=', $id_module)->get()->toArray(); 
     //     return $collection->pluck('table_name');
-        
+
     // }
     // public function _getLocationModule($id_module){
 
@@ -87,6 +87,7 @@ class PermissionController extends Controller
         $locationDataTable = Permission::where('type', 'location')->get();
         $otherDataTable = Permission::where('type', 'other')->get();
 
+        // dd($locationDataTable);
         // $forloopModule = [
         //     'module' => [
         //         'name' => '',

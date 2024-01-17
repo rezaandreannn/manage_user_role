@@ -27,11 +27,17 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto  navbar-list mb-2 mb-lg-0">
 
-                <select class="custom-select form-control" id="location">
+                <select class="custom-select form-control" id="locationSelected">
                     <option selected>Pilih Location</option>
                     @foreach (\Spatie\Permission\Models\Permission::where('type', 'location')->get() as $location)
+                    @php
+                    $isActive = \App\Models\UserLocation::where('model_id', auth()->user()->id)
+                    ->where('permission_id', $location->id)
+                    ->where('is_primary', 1)
+                    ->first();
+                    @endphp
                     @can($location->name)
-                    <option value="{{ $location->id }}">{{ $location->title }}</option>
+                    <option value="{{ $location->id }}" {{ $isActive ? 'selected' : ''}}>{{ $location->title }}</option>
                     @endcan
                     @endforeach
                 </select>
@@ -71,3 +77,27 @@
         </div>
     </div>
 </nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var locationSelect = document.getElementById('locationSelected');
+
+
+        locationSelect.addEventListener('change', function() {
+            var selectedLocationId = this.value;
+            var updateUrl = "{{ route('update.location') }}";
+
+            axios.post(updateUrl, {
+                    location_id: selectedLocationId
+                })
+                .then(function(response) {
+                    console.log(response.data);
+                    location.reload();
+                })
+                .catch(function(error) {
+                    console.error(error);
+                });
+        });
+    });
+
+</script>

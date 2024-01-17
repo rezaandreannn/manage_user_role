@@ -173,17 +173,29 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Location</th>
+                                            <th>Primary Location</th>
+                                            <th>Permission</th>
+                                        </tr>
+                                    </thead>
                                     <tbody>
                                         @foreach($permissionLocation as $permission)
                                         <tr class="{{ !isset($permission->parent_id) ? 'bg-body' : '' }}">
                                             <td>
                                                 {{ $permission->title}}
                                             </td>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="set_primary_location" id="set_primary_location" value="{{ $permission->id}}" {{ $permission->active_location == 1 ?'checked' : ''}}>
+                                                    <label class="form-check-label" for="flexRadioDefault1">
+                                                    </label>
+                                                </div>
+                                            </td>
                                             <td class="text-center">
                                                 @php
-
                                                 $hasUserPermission = AuthHelper::checkUserPermission($user, $permission->id);
-
                                                 $isChecked = $hasUserPermission;
                                                 @endphp
                                                 <input class="form-check-input" type="checkbox" id="permission-{{ $permission->id }}" name="permission[{{$permission->name}}][]" value='{{ $data->id }}' {{ $isChecked ? 'checked' : '' }}>
@@ -361,4 +373,30 @@
     </div>
 
     @include('partials.components.share-offcanvas')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var radioButtons = document.querySelectorAll('input[name="set_primary_location"]');
+
+            radioButtons.forEach(function(radioButton) {
+                radioButton.addEventListener('change', function() {
+                    var selectedLocationId = this.dataset.locationId;
+                    var updateUrl = "{{ route('update.location') }}";
+
+                    axios.post(updateUrl, {
+                            location_id: selectedLocationId
+                        })
+                        .then(function(response) {
+                            console.log(response.data);
+
+                        })
+                        .catch(function(error) {
+                            console.error(error);
+                        });
+                });
+            });
+        });
+
+    </script>
+
 </x-app-layout>

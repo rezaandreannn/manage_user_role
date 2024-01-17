@@ -50,7 +50,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Location</th>
-                                                <th>Name</th>
+                                                <th>Table Name</th>
                                                 <th>Title</th>
                                                 <th>Order</th>
                                                 <th>action</th>
@@ -64,7 +64,7 @@
                                                     {{ $location->id == $module->parent_id ? $location->title : '' }}
                                                     @endforeach
                                                 </td>
-                                                <td>{{ $module->name }}</td>
+                                                <td>{{ $module->table_name }}</td>
                                                 <td>{{ $module->title }}</td>
                                                 <td>{{ $module->order }}</td>
                                                 <td>

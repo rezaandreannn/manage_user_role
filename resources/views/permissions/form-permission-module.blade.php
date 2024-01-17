@@ -41,6 +41,11 @@
         @endforeach
     </select>
 </div>
+
+<div class="form-group">
+    <label class="form-label">Table Name</label>
+    {{ Form::text('table_name', old('table_name'), ['class' => 'form-control','id' => 'permission-table_name', 'placeholder' => 'Table Name', 'autocomplete' => 'off']) }}
+</div>
 @endif
 
 <div class="form-group">

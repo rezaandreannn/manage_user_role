@@ -30,6 +30,7 @@ class CreatePermissionTables extends Migration
             $table->string('name');       // For MySQL 8.0 use string('name', 125);
             $table->string('title');
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
+            $table->string('table_name')->nullable(); // For MySQL 8.0 use string('guard_name', 125);
             $table->string('icon')->nullable(); // For MySQL 8.0 use string('guard_name', 125);
             $table->string('url')->nullable(); // For MySQL 8.0 use string('guard_name',  125);
             $table->string('code')->nullable(); // For MySQL 8.0 use string('guard_name',  125);
@@ -37,6 +38,7 @@ class CreatePermissionTables extends Migration
             $table->unsignedBigInteger('parent_id')->nullable()->default(null);
             $table->string('order')->nullable(); // For MySQL 8.0 use string('guard_name', 125);
             $table->string('aliases')->nullable(); // For MySQL 8.0 use string('guard_name', 125);
+            // $table->boolean('active_location')->nullable();
             $table->string('description')->nullable(); // For MySQL 8.0 use string('guard_name', 125);
             $table->timestamps();
 
@@ -67,6 +69,7 @@ class CreatePermissionTables extends Migration
             $table->string('model_type');
             $table->unsignedBigInteger($columnNames['model_morph_key']);
             $table->index([$columnNames['model_morph_key'], 'model_type'], 'model_has_permissions_model_id_model_type_index');
+            $table->boolean('is_primary')->default(false);
 
             $table->foreign(PermissionRegistrar::$pivotPermission)
                 ->references('id')
