@@ -16,8 +16,26 @@
                 </svg>
             </i>
         </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon">
+                <span class="navbar-toggler-bar bar1 mt-2"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+            </span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto  navbar-list mb-2 mb-lg-0">
+
+                <select class="custom-select form-control" id="location">
+                    <option selected>Pilih Location</option>
+                    @foreach (\Spatie\Permission\Models\Permission::where('type', 'location')->get() as $location)
+                    @can($location->name)
+                    <option value="{{ $location->id }}">{{ $location->title }}</option>
+                    @endcan
+                    @endforeach
+                </select>
+
                 <li class="nav-item dropdown">
                     <a class="nav-link py-0 d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="{{asset('images/avatars/01.png')}}" alt="User-Profile" class="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded">
@@ -26,8 +44,8 @@
                         <img src="{{asset('images/avatars/avtar_4.png')}}" alt="User-Profile" class="theme-color-green-img img-fluid avatar avatar-50 avatar-rounded">
                         <img src="{{asset('images/avatars/avtar_5.png')}}" alt="User-Profile" class="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded">
                         <img src="{{asset('images/avatars/avtar_3.png')}}" alt="User-Profile" class="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded">
-                        <div class="caption ms-3 d-none d-md-block ">
-                            <h6 class="mb-0 caption-title">{{ auth()->user()->full_name ?? 'Austin Robertson'  }}</h6>
+                        <div class="caption ms-3 d-none d-md-block">
+                            <h6 class="mb-0 caption-title" style="display: inline-block; white-space: nowrap;">{{ auth()->user()->full_name ?? 'Austin Robertson'  }}</h6>
                             <p class="mb-0 caption-sub-title text-capitalize">{{ str_replace('_',' ',auth()->user()->user_type) ?? 'Marketing Administrator' }}</p>
                         </div>
                     </a>

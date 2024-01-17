@@ -138,6 +138,11 @@
                                         <tr class="{{ !isset($permission->parent_id) ? 'bg-body' : '' }}">
                                             <td>
                                                 {{ $permission->title}}
+                                                @foreach($permissionLocation as $location)
+                                                @if($location->id == $permission->parent_id)
+                                                <div class="badge bg-secondary rounded-pill">{{ $location->title}} </div>
+                                                @endif
+                                                @endforeach
                                             </td>
                                             <td class="text-center">
                                                 @php
@@ -208,6 +213,30 @@
                                         <tr class="{{ !isset($permission->parent_id) ? 'bg-body' : '' }}">
                                             <td>
                                                 {{ $permission->title}}
+                                                @foreach($permissionModule as $module)
+                                                @if($permission->parent_id == $module->id)
+                                                @php
+                                                $bg = '';
+                                                if ($module->aliases == 'BP') {
+                                                $bg = 'success';
+                                                } elseif ($module->aliases == 'TS') {
+                                                $bg = 'warning';
+                                                } else {
+                                                $bg = 'primary';
+                                                }
+                                                @endphp
+                                                <div class="badge rounded-pill bg-{{ $bg }} item-name">
+                                                    {{ $module->aliases }}
+                                                </div>
+                                                @foreach($permissionLocation as $location)
+                                                @if($location->id == $module->parent_id)
+                                                <div class="badge rounded-pill bg-secondary item-name">
+                                                    {{ $location->title }}
+                                                </div>
+                                                @endif
+                                                @endforeach
+                                                @endif
+                                                @endforeach
                                             </td>
                                             <td class="text-center">
                                                 @php

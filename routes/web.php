@@ -8,8 +8,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Security\RoleController;
 use App\Http\Controllers\Security\RolePermission;
 use App\Http\Controllers\Security\PermissionController;
-use App\Http\Controllers\Module\Batchingplant\JmfController;
-use App\Http\Controllers\Module\Batchingplant\MaterialUsage;
 // Packages
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;

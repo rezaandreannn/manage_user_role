@@ -78,6 +78,13 @@
                                             @foreach ($modulePermissions as $module)
                                             <tr class="{{ !isset($module->parent_id) ? 'bg-body' : '' }}">
                                                 <td>{{ $module->title }}
+                                                    @foreach ($locationPermissions as $location)
+                                                    @if ($location->id == $module->parent_id)
+                                                    <div class="badge rounded-pill bg-secondary">
+                                                        {{ $location->title }}
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
                                                 </td>
                                                 @foreach ($roles as $role)
                                                 <td class="text-center">
@@ -142,12 +149,25 @@
                                                     @foreach($modulePermissions as $value)
                                                     @if($menu->parent_id == $value->id)
                                                     @php
-                                                    $brightness = hexdec(substr(md5($value->id), 0, 2));
-                                                    $textColor = $brightness > 128 ? 'dark' : 'light';
+                                                    $bg = '';
+                                                    if ($value->aliases == 'BP') {
+                                                    $bg = 'success';
+                                                    } elseif ($value->aliases == 'TS') {
+                                                    $bg = 'warning';
+                                                    } else {
+                                                    $bg = 'primary';
+                                                    }
                                                     @endphp
-                                                    <div class="badge rounded-pill" style="background-color: {{ '#' . substr(md5($value->id), 0, 6) }}; color: {{ $textColor }};">
-                                                        {{ $value->title }}
+                                                    <div class="badge rounded-pill bg-{{ $bg ?? 'secondary'}}">
+                                                        {{ $value->aliases }}
                                                     </div>
+                                                    @foreach($locationPermissions as $location)
+                                                    @if($location->id == $value->parent_id)
+                                                    <div class="badge rounded-pill bg-secondary item-name">
+                                                        {{ $location->title }}
+                                                    </div>
+                                                    @endif
+                                                    @endforeach
                                                     @endif
                                                     @endforeach
                                                 </td>
