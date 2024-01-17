@@ -1,5 +1,5 @@
 <ul class="navbar-nav iq-main-menu" id="sidebar">
-    <li class="nav-item static-item">
+    {{-- <li class="nav-item static-item">
         <a class="nav-link static-item disabled" href="#" tabindex="-1">
             <span class="default-icon">Home</span>
             <span class="mini-icon">-</span>
@@ -15,8 +15,8 @@
             </i>
             <span class="item-name">Dashboard</span>
         </a>
-    </li>
-    <li class="nav-item">
+    </li> --}}
+    {{-- <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#horizontal-menu" role="button" aria-expanded="false" aria-controls="horizontal-menu">
             <i class="icon">
                 <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -112,7 +112,7 @@
             </i>
             <span class="item-name">Design System<span class="badge rounded-pill bg-success item-name">UI</span></span>
         </a>
-    </li>
+    </li> --}}
 
 
 
@@ -420,7 +420,7 @@
             <span class="item-name">Admin</span>
         </a>
     </li> --}}
-    <li>
+    {{-- <li>
         <hr class="hr-horizontal">
     </li>
     <li class="nav-item static-item">
@@ -701,5 +701,5 @@
                 </a>
             </li>
         </ul>
-    </li>
+    </li> --}}
 </ul>

@@ -9,10 +9,13 @@ use App\DataTables\PermissionsDataTable;
 use App\Http\Requests\PermissionRequest;
 use Spatie\Permission\Models\Permission;
 use App\DataTables\ModulePermissionsDataTable;
+use DB;
 
 class PermissionController extends Controller
 {
     protected $formMessage;
+    protected $escapeWhenCastingToString = true;
+
 
     public function __construct()
     {
@@ -23,6 +26,27 @@ class PermissionController extends Controller
         ];
     }
 
+
+    // private function _tableName($id_module){
+    //     $collection = Permission::select('table_name')->where('id', '=', $id_module)->get()->toArray(); 
+    //     return $collection->pluck('table_name');
+        
+    // }
+    // public function _getLocationModule($id_module){
+
+    //     $collection = Permission::select('table_name')->where('id', '=', $id_module)->get()->toArray(); 
+    //     switch($collection['table_name']){
+    //         case 'batchingplant' :
+    //         $conn = DB::connection('second_db')
+    //         ->table('db_batchingplant');
+    //         break;
+    //     }
+
+
+    //     $result = $conn->select('id','name')
+    //         ->get();
+    //     return $result;
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -62,6 +86,32 @@ class PermissionController extends Controller
             ->get();
         $locationDataTable = Permission::where('type', 'location')->get();
         $otherDataTable = Permission::where('type', 'other')->get();
+
+        // $forloopModule = [
+        //     'module' => [
+        //         'name' => '',
+        //         'location list' => [],
+        //     ],
+        // ];
+
+        // dd($moduleDataTable->toArray());
+        // $data = $moduleDataTable->pluck('table_name');
+        // // $data = json_decode($data);
+        // dd($moduleDataTable);
+
+
+        // for ($i=0; $i < count($moduleDataTable) ; $i++) { 
+        //     $table_name = $this->_getLocationModule($moduleDataTable[$i]->id);
+        //     dd($table_name);
+
+        //     $forloopModule[$i]['name'] = $moduleDataTable[$i]->title;
+        //     $forloopModule[$i]['name'] = DB::connection('second_db')
+        //     ->table($data[$i]['table_name'])
+        //     ->select('name')
+        //     ->get();
+        //     // $forloopModule[$i]['name'] = $this->_getLocationModule($moduleDataTable[$i]->id);
+        // }
+        // dd($forloopModule);
 
         return view('permissions.index', compact('moduleDataTable', 'locationDataTable', 'menuDataTable', 'otherDataTable', 'pageTitle', 'buttonAddModule', 'buttonAddLocation', 'buttonAddMenu', 'buttonAddOther'));
     }
